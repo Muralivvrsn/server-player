@@ -58,7 +58,6 @@ io.on("connection", (socket) => {
       users: usersInRoom[data.room],
     }); //sending the data to the room
   });
-  
 
   socket.on("disconnect", () => {
     const id = socket.handshake.query.room;
@@ -66,8 +65,10 @@ io.on("connection", (socket) => {
       return;
     }
     const user = usersInRoom[id].find((user) => user.id === socket.id);
+
     usersInRoom[id] = usersInRoom[id].filter((item) => item.id !== socket.id);
     console.log(usersInRoom[id]);
+
     io.to(id).emit("player-out", { user, users: usersInRoom[id] });
   });
 });
